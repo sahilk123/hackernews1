@@ -9,6 +9,10 @@ import axios from "axios";
 
 
 class App extends React.Component {
+   state = {
+       news:[],
+       searchKeyword: ""
+   }
 
     componentDidMount = async () => {
         this.fetchData()
@@ -17,16 +21,21 @@ class App extends React.Component {
     fetchData = async () => {
         let response = await axios.get(`https://hn.algolia.com/api/v1/search?query=sports&hitsPerPage=15&page=51`);
 
-    console.log("response=>" , response);
+    this.setState({
+        news: response.data.hits
+    });
     }
 
-
+onInputChange = (val) =>{
+       console.log("value",val);
+}
 
     render() {
 
+
         return (
             <div>
-                <Searchbar />
+                <Searchbar onInputChange={this.onInputChange} />
                 <News  />
 
             </div>
